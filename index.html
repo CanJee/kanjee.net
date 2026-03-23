@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hasan Kanjee — Engineer. Adventurer.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #090d12;
+      --surface:   #0f1620;
+      --card:      #141e2b;
+      --border:    #1e2f45;
+      --cyan:      #00e5ff;
+      --orange:    #ff6b35;
+      --green:     #39ff7e;
+      --purple:    #9b59ff;
+      --text:      #e8edf2;
+      --muted:     #6b8099;
+      --font-sans: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-display: 'Bebas Neue', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+
+    /* ── Nav ─────────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(9,13,18,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(0,229,255,0.08);
+      transition: all 0.3s;
+    }
+    .nav-logo { font-family: var(--font-mono); font-size: 1rem; color: var(--cyan); letter-spacing: 0.05em; }
+    .nav-logo span { color: var(--orange); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--cyan); }
+
+    /* ── Hero ────────────────────────────────────────────────────────────── */
+    #hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .hero-photo {
+      position: absolute; inset: 0;
+      background-image: url('photos/web/hero_iceland.jpg');
+      background-size: cover; background-position: center 40%;
+      opacity: 0.28;
+    }
+    .hero-vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 90% 80% at 50% 50%, transparent 20%, rgba(9,13,18,0.8) 100%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 20s linear infinite;
+    }
+    @keyframes gridMove { 0% { transform: translateY(0); } 100% { transform: translateY(60px); } }
+    .particles { position: absolute; inset: 0; pointer-events: none; }
+    .particle { position: absolute; border-radius: 50%; animation: float linear infinite; opacity: 0; }
+    @keyframes float {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(-20vh) scale(1); opacity: 0; }
+    }
+    .hero-content { position: relative; z-index: 2; text-align: center; padding: 2rem; }
+    .hero-tag {
+      display: inline-block; font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--cyan); border: 1px solid rgba(0,229,255,0.3); border-radius: 2px;
+      padding: 0.3rem 0.9rem; margin-bottom: 2rem; letter-spacing: 0.15em;
+    }
+    .hero-tag::before { content: '> '; color: var(--orange); }
+    .hero-name {
+      font-family: var(--font-display); font-size: clamp(5rem, 14vw, 11rem);
+      line-height: 0.9; letter-spacing: 0.03em;
+      background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 50%, var(--orange) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-title { margin-top: 1.5rem; font-family: var(--font-mono); font-size: clamp(0.85rem, 2vw, 1.1rem); color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; }
+    .hero-title .hl { color: var(--cyan); }
+    .hero-cta { display: flex; align-items: center; justify-content: center; gap: 1.2rem; margin-top: 3rem; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.8rem; border-radius: 3px; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.25s; }
+    .btn-primary { background: var(--cyan); color: var(--bg); font-weight: 700; }
+    .btn-primary:hover { background: #33ecff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,229,255,0.3); }
+    .btn-outline { border: 1px solid var(--border); color: var(--muted); }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--cyan), transparent); }
+
+    /* ── Section Base ───────────────────────────────────────────────────── */
+    section { padding: 7rem 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .section-label { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--cyan); letter-spacing: 0.2em; text-transform: uppercase; }
+    .section-label::before { content: ''; display: block; width: 30px; height: 1px; background: var(--cyan); }
+    .section-title { font-family: var(--font-display); font-size: clamp(2.8rem, 6vw, 4.5rem); line-height: 1; letter-spacing: 0.02em; color: #fff; }
+
+    /* ── About ──────────────────────────────────────────────────────────── */
+    #about { background: var(--surface); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: center; margin-top: 4rem; }
+    .about-photo-wrap { position: relative; }
+    .about-photo-frame { position: relative; border-radius: 4px; overflow: hidden; aspect-ratio: 4/5; background: var(--card); border: 1px solid var(--border); }
+    .about-photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .about-photo-accent { position: absolute; top: -12px; right: -12px; width: 80px; height: 80px; border-top: 2px solid var(--cyan); border-right: 2px solid var(--cyan); }
+    .about-photo-accent-2 { position: absolute; bottom: -12px; left: -12px; width: 80px; height: 80px; border-bottom: 2px solid var(--orange); border-left: 2px solid var(--orange); }
+    .about-badge { position: absolute; bottom: -1.5rem; right: -1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 0.8rem 1.2rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--cyan); letter-spacing: 0.08em; white-space: nowrap; }
+    .about-intro { margin-top: 1.5rem; font-size: 1.15rem; line-height: 1.8; color: var(--text); }
+    .about-intro strong { color: var(--cyan); }
+    .about-sub { margin-top: 1.2rem; font-size: 1rem; line-height: 1.8; color: var(--muted); }
+    .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.5rem; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 1.2rem; text-align: center; transition: border-color 0.2s; }
+    .stat-card:hover { border-color: var(--cyan); }
+    .stat-num { font-family: var(--font-display); font-size: 2.2rem; color: var(--cyan); letter-spacing: 0.04em; }
+    .stat-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.2rem; }
+
+    /* ── Adventures ─────────────────────────────────────────────────────── */
+    #adventures { background: var(--bg); }
+    .hobby-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+    .hobby-card {
+      position: relative; border-radius: 6px; overflow: hidden;
+      aspect-ratio: 3/4; cursor: pointer; border: 1px solid var(--border);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .hobby-card:hover { transform: translateY(-8px) scale(1.02); }
+    .hobby-card-bg { position: absolute; inset: 0; background-size: cover; background-position: center 20%; transition: transform 0.5s ease; }
+    .hobby-card:hover .hobby-card-bg { transform: scale(1.08); }
+    /* Video background for cards */
+    .hobby-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .hobby-card:hover .hobby-video { transform: scale(1.05); }
+    .hobby-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(9,13,18,0.95) 0%, rgba(9,13,18,0.3) 60%, transparent 100%); }
+    .hobby-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem 1.2rem; }
+    .hobby-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .hobby-name { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 0.05em; color: #fff; }
+    .hobby-tag { display: inline-block; margin-top: 0.4rem; padding: 0.2rem 0.6rem; border-radius: 2px; font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* ── Experience ─────────────────────────────────────────────────────── */
+    #tech { background: var(--surface); }
+    .tech-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; margin-top: 4rem; align-items: start; }
+    .timeline { position: relative; padding-left: 2rem; }
+    .tl-line { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--cyan), var(--purple), transparent); }
+    .tl-item { position: relative; margin-bottom: 2.5rem; opacity: 0; transform: translateX(-20px); transition: all 0.5s ease; }
+    .tl-item.visible { opacity: 1; transform: translateX(0); }
+    .tl-dot { position: absolute; left: -2.45rem; top: 0.35rem; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+    .tl-dot.purple { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
+    .tl-dot.orange { background: var(--orange); box-shadow: 0 0 8px var(--orange); }
+    .tl-dot.green  { background: var(--green);  box-shadow: 0 0 8px var(--green); }
+    .tl-date { font-family: var(--font-mono); font-size: 0.68rem; color: var(--cyan); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.3rem; }
+    .tl-date.purple { color: var(--purple); }
+    .tl-date.orange { color: var(--orange); }
+    .tl-date.green  { color: var(--green); }
+    .tl-role { font-size: 1rem; font-weight: 600; color: var(--text); }
+    .tl-company { font-size: 0.85rem; color: var(--muted); margin-top: 0.15rem; }
+    .tl-desc { margin-top: 0.5rem; font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .tennis-callout { background: linear-gradient(135deg, rgba(57,255,126,0.05), rgba(0,229,255,0.05)); border: 1px solid rgba(57,255,126,0.2); border-radius: 6px; padding: 1.5rem; margin-top: 2.5rem; display: flex; align-items: flex-start; gap: 1.2rem; }
+    .tc-icon { font-size: 2rem; flex-shrink: 0; }
+    .tc-title { font-weight: 600; color: var(--green); font-size: 0.95rem; }
+    .tc-desc { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.5; }
+    .skills-panel h3 { font-family: var(--font-mono); font-size: 0.72rem; color: var(--cyan); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .skill-group { margin-bottom: 1.5rem; }
+    .skill-group-label { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.6rem; letter-spacing: 0.08em; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag { background: var(--card); border: 1px solid var(--border); border-radius: 2px; padding: 0.3rem 0.7rem; font-family: var(--font-mono); font-size: 0.68rem; color: var(--text); letter-spacing: 0.05em; transition: all 0.2s; }
+    .skill-tag:hover { border-color: var(--cyan); color: var(--cyan); }
+    .skill-bar-row { margin-bottom: 0.8rem; }
+    .skill-bar-label { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.35rem; }
+    .skill-bar-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .skill-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--cyan), var(--purple)); transform-origin: left; transform: scaleX(0); transition: transform 0.8s ease 0.2s; }
+    .skill-bar-fill.animate { transform: scaleX(1); }
+
+    /* ── Projects ───────────────────────────────────────────────────────── */
+    #projects { background: var(--bg); }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .project-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 1.8rem; transition: all 0.3s; position: relative; overflow: hidden; }
+    .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--purple)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+    .project-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-4px); }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; }
+    .project-icon { font-size: 1.8rem; }
+    .project-link { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; color: var(--muted); font-size: 0.9rem; transition: all 0.2s; }
+    .project-link:hover { border-color: var(--cyan); color: var(--cyan); }
+    .project-name { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+    .project-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.6; }
+    .project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.2rem; }
+    .tech-chip { background: rgba(0,229,255,0.08); color: var(--cyan); border-radius: 2px; padding: 0.2rem 0.6rem; font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.06em; }
+    .project-card.placeholder { border-style: dashed; border-color: rgba(255,107,53,0.2); }
+    .project-card.placeholder:hover { border-color: rgba(255,107,53,0.4); }
+    .placeholder-label { font-family: var(--font-mono); font-size: 0.68rem; color: var(--orange); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+
+    /* ── Gallery ────────────────────────────────────────────────────────── */
+    #photos { background: var(--surface); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; gap: 0.6rem; margin-top: 3rem; }
+    .gallery-item { position: relative; overflow: hidden; border-radius: 4px; background: var(--card); border: 1px solid var(--border); cursor: pointer; }
+    .gallery-item.tall  { grid-row: span 2; }
+    .gallery-item.wide  { grid-column: span 2; }
+    .gallery-item-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.5s ease; }
+    .gallery-item:hover .gallery-item-bg { transform: scale(1.06); }
+    .gallery-item-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(9,13,18,0.85), transparent); opacity: 0; transition: opacity 0.3s; }
+    .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+    .gallery-item-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; font-size: 0.78rem; color: var(--text); transform: translateY(10px); opacity: 0; transition: all 0.3s; }
+    .gallery-item:hover .gallery-item-caption { transform: translateY(0); opacity: 1; }
+    .gallery-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .gallery-item:hover .gallery-video { transform: scale(1.06); }
+    .gallery-vid-badge { position: absolute; top: 0.6rem; right: 0.6rem; background: rgba(9,13,18,0.7); border-radius: 2px; padding: 0.15rem 0.4rem; font-family: var(--font-mono); font-size: 0.6rem; color: var(--cyan); letter-spacing: 0.08em; }
+
+    /* ── Connect ────────────────────────────────────────────────────────── */
+    #connect { background: var(--bg); }
+    .connect-inner { text-align: center; max-width: 700px; margin: 0 auto; }
+    .connect-inner p { margin-top: 1.5rem; font-size: 1.1rem; line-height: 1.8; color: var(--muted); }
+    .connect-links { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 3rem; flex-wrap: wrap; }
+    .connect-btn { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.8rem 1.6rem; border-radius: 3px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); transition: all 0.25s; }
+    .connect-btn:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-2px); }
+    .connect-btn.primary-btn { background: var(--cyan); color: var(--bg); border-color: var(--cyan); font-weight: 700; }
+    .connect-btn.primary-btn:hover { background: #33ecff; box-shadow: 0 8px 24px rgba(0,229,255,0.3); }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 2.5rem 4rem; display: flex; align-items: center; justify-content: space-between; }
+    .footer-logo { font-family: var(--font-mono); font-size: 0.9rem; color: var(--cyan); }
+    .footer-logo span { color: var(--orange); }
+    .footer-text { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.08em; }
+
+    /* ── Animations ──────────────────────────────────────────────────────── */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ─────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hobby-grid { grid-template-columns: repeat(3, 1fr); }
+      .tech-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 5rem 0; }
+      .hobby-grid { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">kanjee<span>.</span>net</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#adventures">Adventures</a></li>
+    <li><a href="#tech">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#photos">Gallery</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-grid"></div>
+  <div class="particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Senior Software Engineer · Toronto, CA</div>
+    <h1 class="hero-name">HASAN<br>KANJEE</h1>
+    <p class="hero-title">
+      <span class="hl">Engineer</span> &nbsp;·&nbsp; Adventurer &nbsp;·&nbsp; Explorer
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#about">Explore ↓</a>
+      <a class="btn btn-outline" href="#connect">Get in Touch</a>
+      <a class="btn btn-outline" href="https://linkedin.com/in/hasankanjee" target="_blank">LinkedIn ↗</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><span>scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- ── About ────────────────────────────────────────────────────────────── -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">Who I Am</div>
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+      <div class="about-photo-wrap fade-up">
+        <div class="about-photo-frame">
+          <img
+            src="photos/web/profile_photo.jpg"
+            alt="Hasan Kanjee"
+            onerror="this.parentNode.style.background='linear-gradient(135deg,#0a1a1f,#141e2b)';this.style.display='none';"
+          />
+        </div>
+        <div class="about-photo-accent"></div>
+        <div class="about-photo-accent-2"></div>
+        <div class="about-badge">📍 Toronto, Ontario</div>
+      </div>
+      <div class="about-text fade-up">
+        <div class="section-label">Background</div>
+        <h2 class="section-title">Engineer.<br>Explorer.</h2>
+        <p class="about-intro">
+          Hi, I'm Hasan — a <strong>Senior Software Engineer at Flipp</strong> building products that help millions of shoppers find the best deals across North America.
+        </p>
+        <p class="about-sub">
+          By day I'm deep in distributed systems and backend engineering. By every other waking moment I'm chasing the next summit, wave, or mountain slope. I've skied powder at Snowbird, Banff, and resorts across Colorado, scuba dived coral reefs in the Caribbean and spotted sharks, cave dived, skydived, ice climbed frozen waterfalls, leapt off cliffs into lakes, hiked the sand dunes of Death Valley and the frozen methane lakes of Banff, stood under Delicate Arch in Utah, trekked the cliffs of Iceland and Santorini, and logged thousands of kilometres on two wheels.
+        </p>
+        <p class="about-sub">
+          Tennis is another big part of my life — I play regularly and also volunteer as a <strong style="color:var(--green)">Transportation Captain at the National Bank Open</strong>, Tennis Canada's premier ATP/WTA Masters event, where I manage player &amp; VIP logistics during tournament week.
+        </p>
+        <div class="about-stats">
+          <div class="stat-card"><div class="stat-num">7+</div><div class="stat-label">Years Eng</div></div>
+          <div class="stat-card"><div class="stat-num">5+</div><div class="stat-label">Adventures</div></div>
+          <div class="stat-card"><div class="stat-num">∞</div><div class="stat-label">Curiosity</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Adventures ───────────────────────────────────────────────────────── -->
+<section id="adventures">
+  <div class="container">
+    <div class="section-label">Off the Clock</div>
+    <h2 class="section-title">Adventures</h2>
+
+    <div class="hobby-grid" style="margin-top:3rem">
+
+      <!-- Tennis -->
+      <div class="hobby-card fade-up">
+        <video class="hobby-video" autoplay muted loop playsinline poster="photos/web/tennis_vid2_poster.jpg">
+          <source src="photos/web/tennis_vid2.mp4" type="video/mp4">
+        </video>
+        <div class="hobby-overlay"></div>
+        <div class="hobby-info">
+          <div class="hobby-icon">🎾</div>
+          <div class="hobby-name">Tennis</div>
+          <span class="hobby-tag" style="background:rgba(57,255,126,0.1);color:#39ff7e;">Player · NBO Volunteer</span>
+        </div>
+      </div>
+
+      <!-- Skiing -->
+      <div class="hobby-card fade-up" style="transition-delay:0.1s">
+        <div class="hobby-card-bg" style="background-image:url('photos/web/skiing.jpg'); background-position: center 15%;"></div>
+        <div class="hobby-overlay"></div>
+        <div class="hobby-info">
+          <div class="hobby-icon">⛷️</div>
+          <div class="hobby-name">Skiing</div>
+          <span class="hobby-tag" style="background:rgba(0,229,255,0.1);color:#00e5ff;">Snowbird · Banff · Colorado</span>
+        </div>
+      </div>
+
+      <!-- Hiking -->
+      <div class="hobby-card fade-up" style="transition-delay:0.2s">
+        <div class="hobby-card-bg" style="background-image:url('photos/web/hike_sunrise_summit.jpg'); background-position: center 25%;"></div>
+        <div class="hobby-overlay"></div>
+        <div class="hobby-info">
+          <div class="hobby-icon">🥾</div>
+          <div class="hobby-name">Hiking</div>
+          <span class="hobby-tag" style="background:rgba(255,107,53,0.1);color:#ff6b35;">Utah · Banff · Iceland</span>
+        </div>
+      </div>
+
+      <!-- Scuba — cave diving video background -->
+      <div class="hobby-card fade-up" style="transition-delay:0.3s">
+        <video class="hobby-video" autoplay muted loop playsinline poster="photos/web/scuba_cave_poster.jpg">
+          <source src="photos/web/scuba_cave.mp4" type="video/mp4">
+        </video>
+        <div class="hobby-overlay"></div>
+        <div class="hobby-info">
+          <div class="hobby-icon">🤿</div>
+          <div class="hobby-name">Scuba</div>
+          <span class="hobby-tag" style="background:rgba(155,89,255,0.1);color:#9b59ff;">Cave · Reef · Sharks</span>
+        </div>
+      </div>
+
+      <!-- Motorcycle — panning photo bg + riding video loop -->
+      <div class="hobby-card fade-up" style="transition-delay:0.4s">
+        <video class="hobby-video" autoplay muted loop playsinline poster="photos/web/moto_panning.jpg">
+          <source src="photos/web/moto_ride.mp4" type="video/mp4">
+        </video>
+        <div class="hobby-overlay"></div>
+        <div class="hobby-info">
+          <div class="hobby-icon">🏍️</div>
+          <div class="hobby-name">Moto</div>
+          <span class="hobby-tag" style="background:rgba(255,107,53,0.1);color:#ff6b35;">Two-Wheel Freedom</span>
+        </div>
+      </div>
+
+      <!-- Rock Climbing & Cliff Jumping — video bg -->
+      <div class="hobby-card fade-up" style="transition-delay:0.5s">
+        <video class="hobby-video" autoplay muted loop playsinline poster="photos/web/rock_iceclimb1.jpg">
+          <source src="photos/web/rock_cliffjump.mp4" type="video/mp4">
+        </video>
+        <div class="hobby-overlay"></div>
+        <div class="hobby-info">
+          <div class="hobby-icon">🧗</div>
+          <div class="hobby-name">Climbing</div>
+          <span class="hobby-tag" style="background:rgba(155,89,255,0.1);color:#9b59ff;">Rock · Ice · Cliffs</span>
+        </div>
+      </div>
+
+    </div><!-- /hobby-grid -->
+
+  </div>
+</section>
+
+<!-- ── Experience ────────────────────────────────────────────────────────── -->
+<section id="tech">
+  <div class="container">
+    <div class="section-label">Career</div>
+    <h2 class="section-title">Experience &amp; Skills</h2>
+    <div class="tech-grid">
+
+      <div>
+        <div class="timeline">
+          <div class="tl-line"></div>
+          <div class="tl-item fade-up">
+            <div class="tl-dot"></div>
+            <div class="tl-date">Aug 2023 — Present</div>
+            <div class="tl-role">Senior Software Engineer</div>
+            <div class="tl-company">Flipp · Toronto, ON</div>
+            <div class="tl-desc">Leading backend and product engineering for Flipp's retail advertising platform, serving millions of deal-seeking shoppers across North America.</div>
+          </div>
+          <div class="tl-item fade-up" style="transition-delay:0.1s">
+            <div class="tl-dot purple"></div>
+            <div class="tl-date purple">Dec 2020 — Aug 2023</div>
+            <div class="tl-role">Software Engineer II</div>
+            <div class="tl-company">Flipp · Toronto, ON</div>
+            <div class="tl-desc">Scaled distributed systems handling high-volume shopper and retailer data. Contributed to platform migration and performance improvements.</div>
+          </div>
+          <div class="tl-item fade-up" style="transition-delay:0.2s">
+            <div class="tl-dot orange"></div>
+            <div class="tl-date orange">Aug 2019 — Dec 2020</div>
+            <div class="tl-role">Software Engineer</div>
+            <div class="tl-company">Flipp · Toronto, ON</div>
+            <div class="tl-desc">Built and maintained consumer-facing features across web and mobile platforms.</div>
+          </div>
+          <div class="tl-item fade-up" style="transition-delay:0.3s">
+            <div class="tl-dot green"></div>
+            <div class="tl-date green">Feb 2018 — Aug 2019</div>
+            <div class="tl-role">Software Developer</div>
+            <div class="tl-company">Tulip Retail · Toronto, ON</div>
+            <div class="tl-desc">Developed retail associate tools and clienteling features for enterprise retail brands.</div>
+          </div>
+          <div class="tl-item fade-up" style="transition-delay:0.4s">
+            <div class="tl-dot orange"></div>
+            <div class="tl-date orange">May 2017 — Aug 2017</div>
+            <div class="tl-role">Software Developer Co-op</div>
+            <div class="tl-company">Ciena · Ottawa, ON</div>
+            <div class="tl-desc">Network management software tools in a 4-month co-op placement.</div>
+          </div>
+          <div class="tl-item fade-up" style="transition-delay:0.5s">
+            <div class="tl-dot purple"></div>
+            <div class="tl-date purple">Sep 2016 — Dec 2016</div>
+            <div class="tl-role">Software Developer Co-op</div>
+            <div class="tl-company">IBM · Markham, ON</div>
+            <div class="tl-desc">Enterprise software solutions at IBM's Markham development centre.</div>
+          </div>
+        </div>
+        <div class="tennis-callout fade-up">
+          <div class="tc-icon">🎾</div>
+          <div>
+            <div class="tc-title">Tennis — Player &amp; NBO Volunteer</div>
+            <div class="tc-desc">An avid tennis player and volunteer Transportation Captain at the National Bank Open — one of the world's premier ATP/WTA Masters events — managing player &amp; VIP logistics during tournament week.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skills-panel fade-up">
+        <h3>// Tech Stack</h3>
+        <div class="skill-group">
+          <div class="skill-group-label">Languages</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Ruby</span><span class="skill-tag">Go</span>
+            <span class="skill-tag">TypeScript</span><span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">Python</span><span class="skill-tag">SQL</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Backend &amp; Infra</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Ruby on Rails</span><span class="skill-tag">Node.js</span>
+            <span class="skill-tag">gRPC</span><span class="skill-tag">Kafka</span>
+            <span class="skill-tag">Redis</span><span class="skill-tag">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Cloud &amp; DevOps</div>
+          <div class="skill-tags">
+            <span class="skill-tag">AWS</span><span class="skill-tag">GCP</span>
+            <span class="skill-tag">Kubernetes</span><span class="skill-tag">Docker</span>
+            <span class="skill-tag">Terraform</span><span class="skill-tag">CI/CD</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Frontend</div>
+          <div class="skill-tags">
+            <span class="skill-tag">React</span><span class="skill-tag">React Native</span>
+            <span class="skill-tag">Next.js</span><span class="skill-tag">HTML/CSS</span>
+          </div>
+        </div>
+        <div style="margin-top:2rem">
+          <div class="skill-group-label" style="margin-bottom:1rem">Proficiency</div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-label"><span>Backend Engineering</span><span>95%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:95%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-label"><span>Distributed Systems</span><span>88%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-label"><span>Cloud Infrastructure</span><span>80%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-label"><span>Frontend / React</span><span>72%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:72%"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Projects ──────────────────────────────────────────────────────────── -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">Things I've Built</div>
+    <h2 class="section-title">Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card fade-up">
+        <div class="project-header"><div class="project-icon">🎾</div><a class="project-link" href="https://github.com/CanJee/nbo-driver-board" target="_blank">⇗</a></div>
+        <div class="project-name">NBO Driver Board</div>
+        <div class="project-desc">Internal tooling for the National Bank Open tournament — managing driver assignments, player transport logistics, and real-time board updates for the transportation volunteer team.</div>
+        <div class="project-tech"><span class="tech-chip">React</span><span class="tech-chip">Node.js</span><span class="tech-chip">Real-time</span></div>
+      </div>
+      <div class="project-card placeholder fade-up" style="transition-delay:0.1s">
+        <div class="placeholder-label">// Coming Soon</div>
+        <div class="project-header"><div class="project-icon">🛍️</div></div>
+        <div class="project-name">Flipp Platform Engineering</div>
+        <div class="project-desc">Core backend and data infrastructure powering Flipp's deal-discovery platform — high-scale systems serving millions of weekly active shoppers.</div>
+        <div class="project-tech"><span class="tech-chip">Ruby on Rails</span><span class="tech-chip">Go</span><span class="tech-chip">Kafka</span><span class="tech-chip">AWS</span></div>
+      </div>
+      <div class="project-card placeholder fade-up" style="transition-delay:0.2s">
+        <div class="placeholder-label">// Coming Soon</div>
+        <div class="project-header"><div class="project-icon">🏪</div></div>
+        <div class="project-name">Retail Associate Platform</div>
+        <div class="project-desc">Clienteling and associate-enablement tools for enterprise retail brands at Tulip Retail. Real-time customer data, task management, and omnichannel communication.</div>
+        <div class="project-tech"><span class="tech-chip">Node.js</span><span class="tech-chip">React Native</span><span class="tech-chip">PostgreSQL</span></div>
+      </div>
+      <div class="project-card placeholder fade-up" style="transition-delay:0.3s">
+        <div class="placeholder-label">// Coming Soon</div>
+        <div class="project-header"><div class="project-icon">⚙️</div></div>
+        <div class="project-name">Open Source Work</div>
+        <div class="project-desc">Contributions to open-source projects and community tools.</div>
+        <div class="project-tech"><span class="tech-chip">?</span></div>
+      </div>
+      <div class="project-card placeholder fade-up" style="transition-delay:0.4s">
+        <div class="placeholder-label">// Coming Soon</div>
+        <div class="project-header"><div class="project-icon">🚀</div></div>
+        <div class="project-name">Side Project</div>
+        <div class="project-desc">Something awesome cooking on the side.</div>
+        <div class="project-tech"><span class="tech-chip">?</span></div>
+      </div>
+      <div class="project-card placeholder fade-up" style="transition-delay:0.5s">
+        <div class="placeholder-label">// Coming Soon</div>
+        <div class="project-header"><div class="project-icon">🔬</div></div>
+        <div class="project-name">Research / Writing</div>
+        <div class="project-desc">Technical deep-dives, blog posts, or talks.</div>
+        <div class="project-tech"><span class="tech-chip">?</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Gallery ───────────────────────────────────────────────────────────── -->
+<section id="photos">
+  <div class="container">
+    <div class="section-label">Captured Moments</div>
+    <h2 class="section-title">Gallery</h2>
+    <div class="gallery-grid">
+
+      <!-- 1 Ice climbing tall (P) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.00s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/rock_iceclimb1.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🧊 Ice Climbing — Axes Out</div>
+      </div>
+
+      <!-- 2 Scuba shark (L) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.04s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/scuba_shark.jpg');"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🦈 Nurse Shark — Caribbean Reef</div>
+      </div>
+
+      <!-- 3 Santorini wide (L→wide FIXED) -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.06s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/santorini_2.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🏛️ Santorini Caldera, Greece</div>
+      </div>
+
+      <!-- 4 Scuba vid2 wide (L) — mixed in early -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.08s">
+        <video class="gallery-video" autoplay muted loop playsinline poster="photos/web/scuba_vid2_poster.jpg">
+          <source src="photos/web/scuba_vid2.mp4" type="video/mp4">
+        </video>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-vid-badge">▶ VIDEO</div>
+        <div class="gallery-item-caption">🤿 Caribbean Dive Footage</div>
+      </div>
+
+      <!-- 5 Hike frozen lake tall (P) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.10s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_frozen_lake.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🫧 Methane Bubbles — Abraham Lake, Banff</div>
+      </div>
+
+      <!-- 6 Moto kawasaki (L) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.12s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/moto_kawasaki.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🟢 Kawasaki ZX-6R</div>
+      </div>
+
+      <!-- 7 Skiing video tall (P FIXED from wide) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.14s">
+        <video class="gallery-video" autoplay muted loop playsinline poster="photos/web/ski_s9.jpg">
+          <source src="photos/web/skiing.mp4" type="video/mp4">
+        </video>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-vid-badge">▶ VIDEO</div>
+        <div class="gallery-item-caption">⛷️ Powder Run</div>
+      </div>
+
+      <!-- 8 Tennis 1 tall (P) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.16s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/tennis_1.jpg'); background-position: center 20%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🎾 On Court</div>
+      </div>
+
+      <!-- 9 Moto autumn wide (S) -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.18s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/moto_autumn.jpg'); background-position: center 40%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🍂 Fall Foliage Ride</div>
+      </div>
+
+      <!-- 10 Scuba reef (L) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.20s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/scuba_reef.jpg');"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🤿 Coral Reef Dive</div>
+      </div>
+
+      <!-- 11 Rock climb3 tall (P) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.22s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/rock_climb3.jpg'); background-position: center 20%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🧗 On The Rock Face</div>
+      </div>
+
+      <!-- 12 Moto panning wide (S) -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.24s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/moto_panning.jpg'); background-position: center;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">💨 Speed — Yamaha R6</div>
+      </div>
+
+      <!-- 13 Hike delicate arch tall (P) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.26s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_delicate_arch.jpg'); background-position: center 20%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🏜️ Delicate Arch — Arches NP, Utah</div>
+      </div>
+
+      <!-- 14 Scuba diver (L) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.28s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/scuba_diver.jpg');"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🌊 Depth Check</div>
+      </div>
+
+      <!-- 15 Tennis vid2 (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.30s">
+        <video class="gallery-video" autoplay muted loop playsinline poster="photos/web/tennis_vid2_poster.jpg">
+          <source src="photos/web/tennis_vid2.mp4" type="video/mp4">
+        </video>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-vid-badge">▶ VIDEO</div>
+        <div class="gallery-item-caption">🎾 Serve & Volley</div>
+      </div>
+
+      <!-- 16 Scuba selfie wide (L FIXED from tall) -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.32s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/scuba_selfie.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🪸 Coral Reef Selfie</div>
+      </div>
+
+      <!-- 17 Hike slickrock tall (P) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.34s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_slickrock.jpg'); background-position: center 40%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🪨 Slickrock Ridge — Utah</div>
+      </div>
+
+      <!-- 18 Moto halloween day (L) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.36s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/moto_halloween_day.jpg');"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🎃 Halloween — Thornhill Woods</div>
+      </div>
+
+      <!-- 19 Rock vid3 tall (P) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.38s">
+        <video class="gallery-video" autoplay muted loop playsinline poster="photos/web/rock_vid3_poster.jpg">
+          <source src="photos/web/rock_vid3.mp4" type="video/mp4">
+        </video>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-vid-badge">▶ VIDEO</div>
+        <div class="gallery-item-caption">🧗 On The Wall</div>
+      </div>
+
+      <!-- 20 Scuba turtle wide (S) -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.40s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/scuba_turtle.jpg'); background-position: center 40%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🐢 Sea Turtle Encounter</div>
+      </div>
+
+      <!-- 21 Tennis 4 tall (P) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.42s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/tennis_4.jpg'); background-position: center;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🎾 National Bank Open</div>
+      </div>
+
+      <!-- 22 Hike iceland (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.44s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_iceland.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🌋 Cliffside Rest — Iceland</div>
+      </div>
+
+      <!-- 23 Moto vid3 (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.46s">
+        <video class="gallery-video" autoplay muted loop playsinline poster="photos/web/moto_vid3_poster.jpg">
+          <source src="photos/web/moto_vid3.mp4" type="video/mp4">
+        </video>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-vid-badge">▶ VIDEO</div>
+        <div class="gallery-item-caption">🏍️ Riding Season</div>
+      </div>
+
+      <!-- 24 Scuba vid3 wide (L) -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.48s">
+        <video class="gallery-video" autoplay muted loop playsinline poster="photos/web/scuba_vid3_poster.jpg">
+          <source src="photos/web/scuba_vid3.mp4" type="video/mp4">
+        </video>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-vid-badge">▶ VIDEO</div>
+        <div class="gallery-item-caption">🌊 Deep Blue</div>
+      </div>
+
+      <!-- 25 Hike sand dunes tall (P) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.50s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_sand_dunes.jpg'); background-position: center 40%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🏜️ Mesquite Flat Sand Dunes, Death Valley</div>
+      </div>
+
+      <!-- 26 Moto r3 blue (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.52s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/moto_r3_blue.jpg'); background-position: center 20%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">💙 First Bike — Yamaha R3</div>
+      </div>
+
+      <!-- 27 Rock iceclimb2 (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.54s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/rock_iceclimb2.jpg'); background-position: center 25%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">❄️ Ice Climbing — Frozen Falls</div>
+      </div>
+
+      <!-- 28 Hike waterfall vid tall (P FIXED from wide) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.56s">
+        <video class="gallery-video" autoplay muted loop playsinline poster="photos/web/hike_waterfall_vid_poster.jpg">
+          <source src="photos/web/hike_waterfall_vid.mp4" type="video/mp4">
+        </video>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-vid-badge">▶ VIDEO</div>
+        <div class="gallery-item-caption">💧 Cascade Falls — Ontario</div>
+      </div>
+
+      <!-- 29 Moto halloween night (L) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.58s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/moto_halloween_night.jpg');"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">👻 Halloween Night Ride</div>
+      </div>
+
+      <!-- 30 Hike overlook wide (S) -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.60s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_overlook.jpg'); background-position: center 20%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🎒 Backpacking — Algonquin, Ontario</div>
+      </div>
+
+      <!-- 31 Tennis 3 wide (L FIXED from normal) -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.62s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/tennis_3.jpg'); background-position: center 40%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🎾 Court Side</div>
+      </div>
+
+      <!-- 32 Scuba diver2 (L) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.64s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/scuba_diver2.jpg'); background-position: center 40%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🤿 Flying Over the Reef</div>
+      </div>
+
+      <!-- 33 Hike arch2 tall (P) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.66s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_arch2.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🏜️ Double O Arch — Utah</div>
+      </div>
+
+      <!-- 34 Rock vid2 (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.68s">
+        <video class="gallery-video" autoplay muted loop playsinline poster="photos/web/rock_vid2_poster.jpg">
+          <source src="photos/web/rock_vid2.mp4" type="video/mp4">
+        </video>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-vid-badge">▶ VIDEO</div>
+        <div class="gallery-item-caption">🧗 Climbing Footage</div>
+      </div>
+
+      <!-- 35 Santorini wide (L FIXED from tall) -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.70s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/santorini_1.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🌅 Oia Village from the Caldera</div>
+      </div>
+
+      <!-- 36 Hike fall foliage (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.72s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_fall_foliage.jpg'); background-position: center 20%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🍂 Fall Summit — Killarney Provincial Park</div>
+      </div>
+
+      <!-- 37 Skiing photo (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.74s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/skiing.jpg'); background-position: center 20%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">⛷️ Snowbird — Utah</div>
+      </div>
+
+      <!-- 38 Moto vid2 tall (P FIXED from wide) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.76s">
+        <video class="gallery-video" autoplay muted loop playsinline poster="photos/web/moto_vid2_poster.jpg">
+          <source src="photos/web/moto_vid2.mp4" type="video/mp4">
+        </video>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-vid-badge">▶ VIDEO</div>
+        <div class="gallery-item-caption">🏍️ Open Road</div>
+      </div>
+
+      <!-- 39 Scuba vid4 wide (L) -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.78s">
+        <video class="gallery-video" autoplay muted loop playsinline poster="photos/web/scuba_vid4_poster.jpg">
+          <source src="photos/web/scuba_vid4.mp4" type="video/mp4">
+        </video>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-vid-badge">▶ VIDEO</div>
+        <div class="gallery-item-caption">🪸 Reef Life</div>
+      </div>
+
+      <!-- 40 Hike sunrise summit tall (P FIXED from wide) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.80s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_sunrise_summit.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🌅 Sunrise Silhouette — Death Valley</div>
+      </div>
+
+      <!-- 41 Moto r6 suburban (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.82s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/moto_r6_suburban.jpg'); background-position: center 25%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">⚡ White R6</div>
+      </div>
+
+      <!-- 42 Rock cliff jump (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.84s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/rock_cliffjump.jpg'); background-position: center 20%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🌊 Cliff Jump — Mid-Air</div>
+      </div>
+
+      <!-- 43 Rock vid4 (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.86s">
+        <video class="gallery-video" autoplay muted loop playsinline poster="photos/web/rock_vid4_poster.jpg">
+          <source src="photos/web/rock_vid4.mp4" type="video/mp4">
+        </video>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-vid-badge">▶ VIDEO</div>
+        <div class="gallery-item-caption">🧗 Route Finding</div>
+      </div>
+
+      <!-- 44 Hike rapids edge wide (S) -->
+      <div class="gallery-item wide fade-up" style="transition-delay:0.88s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_rapids_edge.jpg'); background-position: center 40%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🌊 Edge of the Rapids — Ontario</div>
+      </div>
+
+      <!-- 45 Tennis 2 (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.90s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/tennis_2.jpg'); background-position: center 20%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🎾 Match Day</div>
+      </div>
+
+      <!-- 46 Hike waterfall scramble tall (P) -->
+      <div class="gallery-item tall fade-up" style="transition-delay:0.92s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_waterfall_scramble.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🪨 Waterfall Scramble — Ontario</div>
+      </div>
+
+      <!-- 47 Moto kawi two (L) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.94s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/moto_kawi_two.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🟢 Kawasaki Gang</div>
+      </div>
+
+      <!-- 48 Scuba fish poster (L) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.96s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/scuba_fish_poster.jpg'); background-position: center;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🐟 School of Fish — Caribbean Reef</div>
+      </div>
+
+      <!-- 49 Hike death valley canyon (S) -->
+      <div class="gallery-item fade-up" style="transition-delay:0.98s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_death_valley_canyon.jpg'); background-position: center 40%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🌈 Artist's Palette — Death Valley</div>
+      </div>
+
+      <!-- 50 Tennis 5 (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:1.00s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/tennis_5.jpg'); background-position: center;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🎾 NBO — Tournament Week</div>
+      </div>
+
+      <!-- 51 Rock climb4 (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:1.02s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/rock_climb4.jpg'); background-position: center 20%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🪨 Vertical World</div>
+      </div>
+
+      <!-- 52 Hike bruce peninsula (P) -->
+      <div class="gallery-item fade-up" style="transition-delay:1.04s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_bruce_peninsula.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">💎 Bruce Peninsula, Georgian Bay</div>
+      </div>
+
+      <!-- 53 Moto bow (S) -->
+      <div class="gallery-item fade-up" style="transition-delay:1.06s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/moto_bow.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🙇 Paying Respects</div>
+      </div>
+
+      <!-- 54 Hike coast (L) -->
+      <div class="gallery-item fade-up" style="transition-delay:1.08s">
+        <div class="gallery-item-bg" style="background-image:url('photos/web/hike_coast.jpg'); background-position: center 30%;"></div>
+        <div class="gallery-item-overlay"></div>
+        <div class="gallery-item-caption">🌊 Rocky Coast Scramble — Caribbean</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Connect ───────────────────────────────────────────────────────────── -->
+<section id="connect">
+  <div class="container">
+    <div class="connect-inner">
+      <div class="section-label" style="justify-content:center">Let's Talk</div>
+      <h2 class="section-title">Get In Touch</h2>
+      <p>Whether it's an engineering challenge, a ski trip plan, or just a chat — I'm always up for it.</p>
+      <div class="connect-links">
+        <a class="connect-btn primary-btn" href="https://linkedin.com/in/hasankanjee" target="_blank">💼 Connect on LinkedIn</a>
+        <a class="connect-btn" href="https://instagram.com/canjee" target="_blank">📸 Instagram</a>
+        <a class="connect-btn" href="https://github.com/hasankanjee" target="_blank">💻 GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-logo">kanjee<span>.</span>net</div>
+  <div class="footer-text">Built with code &amp; caffeine · Toronto © 2025</div>
+  <div class="footer-text" style="font-family:var(--font-mono);color:var(--cyan);font-size:0.72rem;">
+    Engineer. Adventurer. Explorer.
+  </div>
+</footer>
+
+<script>
+  /* Particles */
+  (function() {
+    const c = document.getElementById('particles');
+    const colors = ['#00e5ff','#ff6b35','#39ff7e','#9b59ff','#ffffff'];
+    for (let i = 0; i < 28; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const sz = Math.random()*4+1, col = colors[Math.floor(Math.random()*colors.length)];
+      p.style.cssText = `left:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${col};
+        box-shadow:0 0 ${sz*3}px ${col};animation-duration:${Math.random()*12+8}s;
+        animation-delay:${Math.random()*10}s;`;
+      c.appendChild(p);
+    }
+  })();
+
+  /* Intersection observer */
+  (function() {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          e.target.querySelectorAll('.skill-bar-fill').forEach(b => b.classList.add('animate'));
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up, .tl-item').forEach(el => obs.observe(el));
+  })();
+
+  /* Nav on scroll */
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 60) {
+      nav.style.background = 'rgba(9,13,18,0.97)';
+      nav.style.borderBottomColor = 'rgba(0,229,255,0.15)';
+    } else {
+      nav.style.background = 'rgba(9,13,18,0.85)';
+      nav.style.borderBottomColor = 'rgba(0,229,255,0.08)';
+    }
+  });
+</script>
+</body>
+</html>
